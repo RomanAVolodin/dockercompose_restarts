@@ -1,0 +1,23 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+    ports:
+      - 8010:8010
+    volumes:
+      - media:/media
+
+  neighbour:
+    image: curlimages/curl:latest
+    volumes:
+      - ./test.sh:/test.sh
+      - ./out.txt:/out.txt
+    entrypoint: ["sh", "test.sh"]
+    depends_on:
+      - backend 
+    restart: always 
+
+# Указываем Docker, какие именованные тома потребуются сервисам
+volumes: 
+  media: 
